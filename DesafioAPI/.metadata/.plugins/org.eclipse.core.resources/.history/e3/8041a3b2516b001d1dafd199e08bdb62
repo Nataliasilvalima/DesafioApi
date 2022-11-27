@@ -1,0 +1,29 @@
+package com.gft.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.gft.entities.Historico;
+import com.gft.entities.SalvarHistorico;
+import com.gft.repositories.HistoricoRepository;
+
+@Service
+public class HistoricoService {
+
+	private final SalvarHistorico salvarHistorico;
+	
+	private final HistoricoRepository historicoRepository;
+	
+	@Autowired
+	private EtiquetaService etiquetaService;
+
+	public HistoricoService(SalvarHistorico salvarHistorico,HistoricoRepository historicoRepository ) {
+		this.salvarHistorico = salvarHistorico;
+		this.historicoRepository = historicoRepository;
+	}
+	
+	public Historico salvarHistorico(Historico historico) {
+		return historicoRepository.save(historico);
+	}
+	
+}

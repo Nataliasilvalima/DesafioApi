@@ -1,0 +1,18 @@
+package com.gft.repositories;
+
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.gft.entities.Perfil;
+
+@Repository
+public interface PerfilRepository extends JpaRepository<Perfil, Long> {
+
+	List<Perfil> findByIdPerfil(Long idPerfil);
+
+	Page<Perfil> findAll(Pageable pageable);
+}

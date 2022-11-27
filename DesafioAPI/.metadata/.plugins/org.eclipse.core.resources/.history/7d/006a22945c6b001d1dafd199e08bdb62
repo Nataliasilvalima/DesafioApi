@@ -1,0 +1,21 @@
+package com.gft.enumn;
+
+public class Role {
+	private String ROLE_ADMIN;
+	private String ROLE_USER;
+	
+	public String getROLE_ADMIN() {
+		return ROLE_ADMIN;
+	}
+	public void setROLE_ADMIN(String rOLE_ADMIN) {
+		ROLE_ADMIN = rOLE_ADMIN;
+	}
+	public String getROLE_USER() {
+		return ROLE_USER;
+	}
+	public void setROLE_USER(String rOLE_USER) {
+		ROLE_USER = rOLE_USER;
+	}
+	
+	
+}

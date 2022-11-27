@@ -1,0 +1,92 @@
+package com.gft.controllers;
+
+
+
+import javax.validation.Valid;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.gft.dto.UsuarioDto;
+import com.gft.entities.Usuario;
+import com.gft.services.UserDetailsServiceImplement;
+
+
+@RestController
+@RequestMapping("v1/usuario")
+public class UsuarioController {
+
+	@Lazy
+	private final UserDetailsServiceImplement usuarioService;
+	private final PasswordEncoder encoder;
+	
+	public UsuarioController(UserDetailsServiceImplement usuarioService, PasswordEncoder encoder  ) {
+			this.usuarioService = usuarioService;
+			this.encoder = encoder;
+		}
+
+	@PostMapping	
+	public ResponseEntity<Object> salvarUsuario(@RequestBody @Valid UsuarioDto usuario){
+		 if(usuarioService.existsByName(usuario.getUsername()))
+	            return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflito: Usuario já existe!");
+		 
+		Usuario usuario1 = new Usuario();
+		
+		/*usuario1.setPassword(encoder.encode(usuario.getPassword()));
+		usuario1.setUsername(usuario.getUsername());
+		usuario1.setEmail(usuario.getEmail());
+		usuario1.setPerfil(usuario.getPerfil());*/
+		
+		BeanUtils.copyProperties(usuario, usuario1);
+		usuario1.setPerfil(usuario.getPerfil());
+		
+		return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.salvarUsuario(usuario1));
+		}
+	
+	@GetMapping
+	public ResponseEntity<Page<Usuario>> buscarTodosOsUsuarios(@PageableDefault Pageable pageable)
+	{
+		return ResponseEntity.ok(usuarioService.listarTodosUsuarios(pageable));
+	}
+
+	
+	@GetMapping("{id}")
+	public ResponseEntity<Usuario> buscarUsuario(@PathVariable Long id){
+		
+		Usuario usuario = usuarioService.buscarUsuarioPorId(id);
+		return ResponseEntity.ok(usuario);
+	
+	}
+	
+	
+	@PutMapping("{id}")
+	public ResponseEntity<Usuario> alterarUsuario(@RequestBody Usuario dto,
+			@PathVariable Long id){
+		dto.setPassword(encoder.encode(dto.getPassword()));
+		usuarioService.atualizarUsuario(dto, id);
+
+		return ResponseEntity.ok(dto);
+	
+	}
+	
+	@DeleteMapping("{id}")
+	public ResponseEntity<Usuario> excluirUsuario(@PathVariable Long id){
+		
+		usuarioService.excluirUsuario(id);
+		return ResponseEntity.ok().build();
+	}
+}

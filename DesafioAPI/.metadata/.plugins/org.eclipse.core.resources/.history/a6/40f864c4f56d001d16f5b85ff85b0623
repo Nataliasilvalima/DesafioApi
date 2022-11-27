@@ -1,0 +1,21 @@
+package com.gft.excepctions;
+
+import java.time.LocalDateTime;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class ErroExceptionController {
+
+	@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
+	public Erro500DTO exceptionErro(Exception ex, HttpServletRequest requisicao) {
+		
+		return new Erro500DTO(LocalDateTime.now(),
+				ex.getClass().getName(), ex.getMessage(), requisicao.getRequestURI());
+	}
+	
+}

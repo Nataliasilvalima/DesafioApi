@@ -1,0 +1,35 @@
+package com.gft.webClient;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+
+import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+@Service
+@Slf4j
+public class NoticiasWeb {
+
+	private final WebClient webClient;
+	
+	public NoticiasWeb(WebClient.Builder builder) {
+		webClient = builder.baseUrl("https://apinoticias.tedk.com.br/api").build();
+	}
+	
+	public Flux<NoticiaTeste> findAndNoticiaTeste(String q, String date){
+		return webClient
+				.get()
+				.uri("/?q="+q+"&date="+date)
+				 .accept(APPLICATION_JSON)
+	                .retrieve()
+	                .onStatus(HttpStatus::is4xxClientError,
+	                        serror -> Mono.error(new RuntimeException("verifique os parâmetros informados")))
+	                .bodyToFlux(NoticiaTeste.class);
+				
+	}
+	
+}

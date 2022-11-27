@@ -1,0 +1,25 @@
+package com.gft.dto;
+
+import java.util.List;
+
+public class CriarUsuarioPerfil {
+	
+	private Long idUser;
+	private List<Long> idRoles;
+	
+	public Long getIdUser() {
+		return idUser;
+	}
+	public void setIdUser(Long idUser) {
+		this.idUser = idUser;
+	}
+	public List<Long> getIdRoles() {
+		return idRoles;
+	}
+	public void setIdRoles(List<Long> idRoles) {
+		this.idRoles = idRoles;
+	}
+	
+	
+	
+}

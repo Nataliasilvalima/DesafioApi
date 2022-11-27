@@ -1,0 +1,20 @@
+package com.gft.services;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.gft.entities.Usuario;
+import com.gft.repositories.UsuarioRepository;
+
+@Service
+public class CriarUsuarioPerfilService {
+
+	@Autowired
+	UsuarioRepository usuarioRepository;
+	
+	public Usuario salvarUsuarioPerfil(CriarUsuarioPerfil criarUsuarioPerfil) {
+		Optional<Usuario> usuarioExiste = usuarioRepository.findById(criarUsuarioPerfil.g);
+	}
+}

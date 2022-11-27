@@ -1,0 +1,32 @@
+1669062628465	Rename package 'com.example.demo'
+1669062646266	Rename package 'controllers'
+1669062661774	Rename package 'doc'
+1669062677154	Rename package 'entities'
+1669062690750	Rename package 'services'
+1669090251108	Rename type 'DesafioAPIApplication'
+1669093525213	Move compilation unit
+1669203991992	Delete element
+1669210821232	Rename type 'NoticiaTeste'
+1669223135492	Rename type 'SalvarHistorico'
+1669223366478	Delete element
+1669223379248	Delete element
+1669229951851	Rename type 'CriarUsuarioPerfil'
+1669262748451	Delete element
+1669263024563	Delete element
+1669263340263	Rename resource 'dados.sql'
+1669265695989	Move file
+1669265705696	Delete element
+1669315771939	Delete element
+1669324556673	Delete element
+1669324591410	Delete element
+1669324609340	Rename type 'Parametros'
+1669324757125	Rename type 'Hitorico'
+1669324857005	Rename type 'ParametroService'
+1669331250989	Move compilation unit
+1669331276093	Move compilation unit
+1669331310714	Rename type 'NoticiasWeb'
+1669391086715	Copy file
+1669391122001	Delete element
+1669503518835	Delete element
+1669503624455	Delete element
+1669506204522	Rename field 'idPerfil'

@@ -1,0 +1,33 @@
+CREATE TABLE tb_usuario(
+id BIGINT AUTO_INCREMENT PRIMARY KEY,
+username VARCHAR(255) NOT NULL,
+email varchar(255) NOT NULL,
+password varchar(255) NOT NULL);
+
+CREATE TABLE tb_perfis(
+idPerfil BIGINT AUTO_INCREMENT PRIMARY KEY,
+nome varchar(255) NOT NULL);
+
+CREATE TABLE tb_usuario_perfil(
+perfil_id BIGINT NOT NULL,
+usuario_id BIGINT NOT NULL, 
+FOREIGN KEY (perfil_id) REFERENCES tb_perfis(idPerfil),
+FOREIGN KEY (usuario_id) REFERENCES tb_usuario(id));
+
+CREATE TABLE tb_etiqueta(
+id BIGINT AUTO_INCREMENT PRIMARY KEY,
+nome VARCHAR(255) NOT NULL);
+
+CREATE TABLE historico(
+id BIGINT AUTO_INCREMENT PRIMARY KEY,
+idUsuario BIGINT,
+username VARCHAR(255),
+etiqueta VARCHAR(255),
+date  VARCHAR(255));
+
+
+
+
+
+
+ 

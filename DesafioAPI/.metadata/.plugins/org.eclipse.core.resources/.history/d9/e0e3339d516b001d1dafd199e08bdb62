@@ -1,0 +1,47 @@
+package com.gft.entities;
+
+import java.util.Date;
+
+public class SalvarHistorico {
+
+	private Usuario usuario;
+	private Etiqueta etiqueta;
+	private Historico historico;
+	private Date date;
+	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+	public Etiqueta getEtiqueta() {
+		return etiqueta;
+	}
+	public void setEtiqueta(Etiqueta etiqueta) {
+		this.etiqueta = etiqueta;
+	}
+	public Historico getHistorico() {
+		return historico;
+	}
+	public void setHistorico(Historico historico) {
+		this.historico = historico;
+	}
+	public Date getDate() {
+		return date;
+	}
+	public void setDate(Date date) {
+		this.date = date;
+	}
+	public SalvarHistorico(Usuario usuario, Etiqueta etiqueta, Historico historico, Date date) {
+		this.usuario = usuario;
+		this.etiqueta = etiqueta;
+		this.historico = historico;
+		this.date = date;
+	}
+	public SalvarHistorico() {
+
+	}
+	
+	
+}

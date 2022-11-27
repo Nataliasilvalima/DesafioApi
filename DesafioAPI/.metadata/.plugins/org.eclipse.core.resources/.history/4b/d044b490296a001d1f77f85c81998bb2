@@ -1,0 +1,5 @@
+package com.gft.exceptions;
+
+public class DesafioAPIException {
+
+}

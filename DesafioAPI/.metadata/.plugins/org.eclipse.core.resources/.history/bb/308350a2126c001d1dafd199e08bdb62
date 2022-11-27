@@ -1,0 +1,101 @@
+package com.gft.controllers;
+
+
+
+import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.gft.dto.UsuarioDto;
+import com.gft.entities.Usuario;
+import com.gft.services.UserDetailsServiceImplement;
+
+
+@RestController
+@RequestMapping("v1/usuario")
+public class UsuarioController {
+
+	@Lazy
+	private final UserDetailsServiceImplement usuarioService;
+	private final PasswordEncoder encoder;
+	
+	public UsuarioController(UserDetailsServiceImplement usuarioService, PasswordEncoder encoder  ) {
+			this.usuarioService = usuarioService;
+			this.encoder = encoder;
+		}
+	
+	@PostMapping	
+	public ResponseEntity<UsuarioDto> salvarUsuario(@RequestBody Usuario usuario){
+		usuario.setPassword(encoder.encode(usuario.getPassword()));
+		
+		//Perfil perfil1 = perfilService.buscarPerfilNome("user") ;
+		//perfilService.salvarPerfil(perfil1);
+		//List<Perfil> perfil = new ArrayList<Perfil>();
+		//perfil.add(perfil1);
+		//Usuario usuario = new Usuario();
+		//BeanUtils.copyProperties(dto, usuario);
+		
+		/*usuario.setEmail(dto.getEmail());
+		usuario.setUsername(dto.getUsername());
+		usuario.setPassword(dto.getPassword());
+		
+		List<Perfil> list = dto.getPerfil();
+		for (Perfil perfil : list) {
+			Perfil perfil2 = perfilRepository.findById(perfil.getIdPerfil()).get();
+			usuario.adicionarPerfil(perfil2);
+			
+		}*/
+		
+		Usuario usuario2 = usuarioService.salvarUsuario(usuario);
+		
+		UsuarioDto usuarioDto= new UsuarioDto();
+		usuarioDto.setId(usuario2.getId());
+		usuarioDto.setEmail(usuario2.getEmail());
+		usuarioDto.setUsername(usuario2.getUsername());
+		usuarioDto.setPerfil(usuario2.getPerfil());
+		
+		
+		return ResponseEntity.ok(usuarioDto);
+		}
+
+
+	@GetMapping
+	public ResponseEntity<Page<Usuario>> buscarTodosOsUsuarios(@PageableDefault Pageable pageable)
+	{
+		return ResponseEntity.ok(usuarioService.listarTodosUsuarios(pageable));
+	}
+
+	@GetMapping("{id}")
+	public ResponseEntity<Usuario> buscarUsuario(@PathVariable Long id){
+		
+		Usuario usuario = usuarioService.buscarUsuarioPorId(id);
+		return ResponseEntity.ok(usuario);
+	
+	}
+	
+	@PutMapping("{id}")
+	public ResponseEntity<Usuario> alterarUsuario(@RequestBody Usuario dto,
+			@PathVariable Long id){
+		dto.setPassword(encoder.encode(dto.getPassword()));
+		return ResponseEntity.ok(usuarioService.atualizarUsuario(dto, id));
+	
+	}
+	
+	@DeleteMapping("{id}")
+	public ResponseEntity<Usuario> excluirUsuario(@PathVariable Long id){
+		
+		usuarioService.excluirUsuario(id);
+		return ResponseEntity.ok().build();
+	}
+}

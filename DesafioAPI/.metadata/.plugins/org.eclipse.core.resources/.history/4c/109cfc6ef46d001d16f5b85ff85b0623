@@ -1,0 +1,5 @@
+package com.gft.excepctions;
+
+public class Erro500DTO {
+
+}

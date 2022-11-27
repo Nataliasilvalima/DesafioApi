@@ -1,0 +1,5 @@
+package com.gft.repositories;
+
+public interface HistoricoRepository {
+
+}

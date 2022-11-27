@@ -1,0 +1,55 @@
+package com.gft.services;
+
+import java.awt.print.Pageable;
+import java.util.Optional;
+
+import javax.persistence.EntityNotFoundException;
+
+import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Service;
+
+import com.gft.entities.Etiqueta;
+import com.gft.repositories.EtiquetaRepository;
+
+@Service
+public class EtiquetaService {
+
+
+	private final EtiquetaRepository etiquetaRepository;
+
+	public EtiquetaService(EtiquetaRepository etiquetaRepository) {
+		this.etiquetaRepository = etiquetaRepository;
+	}
+	
+	public Etiqueta salvarEtiqueta(Etiqueta etiqueta) {
+			
+			return etiquetaRepository.save(etiqueta);
+		}
+	
+	public Page<Etiqueta> listarTodasEtiquetas(Pageable pageable){
+		
+		return etiquetaRepository.findAllPage(pageable);
+	}
+	
+	public Etiqueta buscarEtiqueta(Long id) {
+		Optional<Etiqueta> optional= etiquetaRepository.findById(id);
+		
+		return optional.orElseThrow(() -> new EntityNotFoundException("Etiqueta não encontrado."));
+	}
+	
+	public Etiqueta atualizarEtiqueta(Etiqueta etiqueta, Long id) {
+		
+		Etiqueta etiquetaOriginal = this.buscarEtiqueta(id);
+		
+		etiqueta.setId(etiquetaOriginal.getId());
+		
+		return etiquetaRepository.save(etiqueta);
+	}
+	
+	public void excluirEtiqueta(Long id) {
+		
+		Etiqueta etiquetaOriginal = this.buscarEtiqueta(id); 
+		etiquetaRepository.delete(etiquetaOriginal);
+		
+	}
+}

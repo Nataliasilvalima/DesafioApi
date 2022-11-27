@@ -1,0 +1,11 @@
+package com.gft.webClient;
+
+public class PesquisarNoticia {
+	
+	private String title;
+	private String description;
+	private String date;
+	private String link;
+	
+	
+}

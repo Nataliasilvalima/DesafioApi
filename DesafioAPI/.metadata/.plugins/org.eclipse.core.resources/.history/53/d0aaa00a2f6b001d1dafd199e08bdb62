@@ -1,0 +1,28 @@
+package com.gft.webClient;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+import lombok.AllArgsConstructor;
+import reactor.core.publisher.Flux;
+
+@RestController
+@AllArgsConstructor
+@RequestMapping("/api")
+public class NoticiaController {
+
+	NoticiasWeb noticiaWeb;
+	
+	@GetMapping("/")
+	@ResponseStatus(HttpStatus.OK)
+	public Flux<NoticiaTeste>  getNoticiaTeste(@RequestParam String q, @RequestParam String date){
+		System.out.println(date);
+		System.out.println(q);
+		return ResponseEntity.status(HttpStatus.OK).body(noticiaWeb.findAndNoticiaTeste(q, date)).getBody();
+	}
+}

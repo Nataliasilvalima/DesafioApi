@@ -1,0 +1,48 @@
+package com.gft.security;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.gft.services.UserDetailsServiceImplement;
+
+@SuppressWarnings("deprecation")
+@Configuration
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
+
+	final UserDetailsServiceImplement userDetailsService;
+	
+	
+	public WebSecurityConfig(UserDetailsServiceImplement userDetailsService) {
+		this.userDetailsService = userDetailsService;
+	}
+
+	@Override
+	protected void configure(HttpSecurity http) throws Exception{
+		http
+			.httpBasic()
+			.and()
+			.authorizeHttpRequests()
+			.antMatchers("/v1/usuario").permitAll()
+			.anyRequest().permitAll()
+			.and()
+			.csrf().disable();
+	}
+	
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception{
+		auth.userDetailsService(userDetailsService)
+		.passwordEncoder(passwordEnconder());
+	}
+	
+	@Bean
+	public PasswordEncoder passwordEnconder() {
+		return new BCryptPasswordEncoder();
+	}
+	
+}
